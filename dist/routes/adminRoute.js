@@ -1,0 +1,22 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const adminController_1 = __importDefault(require("../controllers/adminController"));
+const adminService_1 = __importDefault(require("../services/adminService"));
+const adminauth_1 = __importDefault(require("../middleware/adminauth"));
+const admin_route = express_1.default.Router();
+const adminService = new adminService_1.default();
+const adminController = new adminController_1.default(adminService);
+admin_route.get('/login', adminauth_1.default.isLogout, adminController.adminLoginLoad.bind(adminController));
+admin_route.get('/add_user', adminauth_1.default.isLogin, adminController.addStudentLoad.bind(adminController));
+admin_route.get('/update_user', adminauth_1.default.isLogin, adminController.updateStudentLoad.bind(adminController));
+admin_route.get('/delete_user', adminauth_1.default.isLogin, adminController.deleteStudent.bind(adminController));
+admin_route.get('/home', adminauth_1.default.isLogin, adminController.adminHomeLoad.bind(adminController));
+admin_route.post('/login', adminauth_1.default.isLogout, adminController.adminLogin.bind(adminController));
+admin_route.post('/add_user', adminauth_1.default.isLogin, adminController.addStudent.bind(adminController));
+admin_route.post('/update_user', adminauth_1.default.isLogin, adminController.updateStudent.bind(adminController));
+admin_route.get('/logout', adminauth_1.default.isLogin, adminController.logOut.bind(adminController));
+exports.default = admin_route;

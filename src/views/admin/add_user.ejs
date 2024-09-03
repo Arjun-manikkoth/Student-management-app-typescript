@@ -1,0 +1,67 @@
+<%-include('../layouts/header')-%>
+<script>
+  function validateform(){  
+      var email = document.forms[0].email.value.trim();
+      var name = document.forms[0].name.value.trim();  
+      var password = document.forms[0].password.value.trim();  
+      var phoneNo = document.forms[0].phoneNumber.value.trim();
+      var validRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  
+      if (!name) {
+          alert("Enter a name");
+          return false;
+      }
+  
+      if (!email) {  
+          alert("Please enter an email address");
+          document.forms[0].email.focus();
+          return false;  
+      } else if (!validRegex.test(email)) {
+          alert("Invalid email address!");
+          document.forms[0].email.focus();
+          return false;
+      }
+  
+      if (!phoneNo) {
+          alert("Please enter a mobile number");
+          return false;
+      }
+  
+      if (!password) {
+          alert("Please enter the password");
+          document.forms[0].password.focus();
+          return false;
+      }
+  
+      return true;
+  }
+  </script>
+<div class="background-signin" >
+</div>
+  <div class="container text-center" id="box-signin" >
+    <h1 id="h1">Add User</h1>
+    <%if(locals.message){%>
+      <div id="top-message">
+        <small id="message"><%=message%></small>
+        <a href="/admin/home" id="link-signup">Back</a>
+      </div>
+      <%}%>
+      <form id="form" method="post" action="/admin/add_user" onsubmit="return validateform()">
+        <br>
+        <div>
+            <input type="text" name="name" class="placeholder" placeholder="Name">
+        </div> 
+        <div>
+            <input type="email" class="placeholder" name="email" placeholder="Email">
+        </div>    
+        <div>
+            <input type="text" class="placeholder" name="phoneNumber" placeholder="Mobile">
+        </div>      
+        <div>
+            <input type="password" class="placeholder" name="password" placeholder="Password">
+        </div>  
+        <button type="submit" class="btn btn-danger" id="btn-signup">Sign up</button>
+    </form>  
+  </div>
+
+  <%-include('../layouts/footer')-%>
